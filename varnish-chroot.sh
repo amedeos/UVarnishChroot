@@ -8,6 +8,8 @@
 
 # dove risiede varnish
 CHROOT=/usr/local/varnish
+USER=varnish
+VCL=/etc/varnish/*.vcl
 cd $CHROOT
 
 mkdir -p usr/bin
@@ -30,6 +32,7 @@ cp -f /bin/cat .
 cp -f /bin/mkdir .
 cp -f /bin/pwd .
 cp -f /bin/rm .
+cp -f /bin/false .
 
 # usr/bin
 cd $CHROOT/usr/bin
@@ -91,6 +94,10 @@ cp -f /etc/nsswitch.conf .
 cd $CHROOT/etc
 cp -f /etc/hosts .
 
+# vcl file
+cd $CHROOT/etc/varnish
+cp -f $VCL .
+
 # dev/null
 cd $CHROOT
 rm -f $CHROOT/dev/null
@@ -125,3 +132,9 @@ cp -f /usr/lib/crti.o .
 cp -f /usr/lib/libc.so .
 cp -f /usr/lib/libc_nonshared.a .
 cp -f /usr/lib/crtn.o .
+
+# user
+cd $CHROOT/etc
+echo "$USER:x:9999:9999::/:/bin/false" > passwd
+echo "$USER:!:14972:0:99999:7:::" > shadow
+chmod 640 shadow
