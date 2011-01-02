@@ -1,0 +1,7 @@
+deploy
+deploy.dat
+*.swp
+*.vcl
+*~
+chroot.txt
+command.txt
